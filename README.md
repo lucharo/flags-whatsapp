@@ -8,6 +8,7 @@ This project implements a simple WhatsApp game using Twilio. The bot sends a fla
 - Fuzzy matching with RapidFuzz
 - Optional flag explanations powered by [Mirascope](https://github.com/Mirascope/mirascope) and a Gemini model
 - Interactive list to choose between flag and capital game modes
+- Dataset includes all recognized countries with flag emojis and capitals
 
 ## Setup
 
