@@ -36,6 +36,8 @@ python src/app.py
 
 Send `start` on WhatsApp to begin the game. You'll receive a menu to choose either "Guess the Flag" or "Guess the Capital". During the game you can reply with `explain` to get a short description of the current flag.
 
+The shared game logic lives in `src/game.py` and is used by both the Flask app and the Cloudflare Worker to avoid code duplication.
+
 ## Deploying to Cloudflare Workers
 
 You can run the webhook on [Cloudflare Workers](https://developers.cloudflare.com/workers/) using their Python runtime.
