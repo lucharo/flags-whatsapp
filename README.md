@@ -35,3 +35,26 @@ python src/app.py
 ```
 
 Send `start` on WhatsApp to begin the game. You'll receive a menu to choose either "Guess the Flag" or "Guess the Capital". During the game you can reply with `explain` to get a short description of the current flag.
+
+## Deploying to Cloudflare Workers
+
+You can run the webhook on [Cloudflare Workers](https://developers.cloudflare.com/workers/) using their Python runtime.
+
+1. Install the [Wrangler](https://github.com/cloudflare/wrangler) CLI and log in:
+
+   ```bash
+   npm install -g wrangler
+   wrangler login
+   ```
+
+2. The repository contains a sample `wrangler.toml` and a Python worker under `cloudflare/worker.py`.
+   Update `wrangler.toml` with your Cloudflare account ID and set the environment variable values or
+   add them using `wrangler secret put`.
+
+3. Deploy the worker with:
+
+   ```bash
+   wrangler deploy
+   ```
+
+Set the Twilio webhook URL to the worker route shown after deployment.
