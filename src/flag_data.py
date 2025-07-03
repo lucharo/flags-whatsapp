@@ -1,3 +1,30 @@
+"""Flag emoji dataset.
+
+This list was compiled using `pycountry` for country names and ISO codes,
+the `emoji` package for flag emojis, and capital city data from the
+[REST Countries API](https://restcountries.com/). To regenerate it:
+
+1. Install dependencies:
+   ```bash
+   pip install pycountry emoji requests
+   ```
+2. Run a small script that fetches each country's capital and flag:
+   ```python
+   import json, requests, pycountry, emoji
+
+   records = []
+   for country in pycountry.countries:
+       code = country.alpha_2
+       flag = emoji.flag(code)
+       resp = requests.get(f"https://restcountries.com/v3.1/alpha/{code}")
+       capital = resp.json()[0].get("capital", [""])[0]
+       records.append({"emoji": flag, "country": country.name, "capital": capital})
+
+   print(json.dumps(records, ensure_ascii=False, indent=4))
+   ```
+3. Copy the printed JSON into `FLAGS` below.
+"""
+
 FLAGS = [
     {'emoji': '🇦🇫', 'country': 'Afghanistan', 'capital': 'Kabul'},
     {'emoji': '🇦🇱', 'country': 'Albania', 'capital': 'Tirana'},
