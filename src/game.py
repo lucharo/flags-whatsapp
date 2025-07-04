@@ -4,6 +4,7 @@ from typing import Dict
 from rapidfuzz import fuzz
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
+from twilio.rest.content.v1.content import ContentList, ContentInstance
 
 from src.flag_data import FLAGS
 from src.llm_utils import explain_flag
@@ -28,28 +29,44 @@ class GameBot:
             logger.warning("Twilio client or WhatsApp number missing; cannot send options")
             return
         logger.info("Sending game mode menu to %s", to_number)
-        message = self.client.messages.create(
-            from_=f"whatsapp:{self.whatsapp_number}",
-            to=to_number,
-            interactive={
-                "type": "list",
-                "header": {"type": "text", "text": "Welcome!"},
-                "body": {"text": "Choose a game mode"},
-                "action": {
-                    "button": "Select",
-                    "sections": [
-                        {
-                            "title": "Modes",
-                            "rows": [
-                                {"id": "flag", "title": "Guess the Flag"},
-                                {"id": "capital", "title": "Guess the Capital"},
-                            ],
-                        }
-                    ],
-                },
-            },
+
+        actions = [
+            ContentList.QuickReplyAction(
+                {
+                    "type": ContentInstance.QuickReplyActionType.QUICK_REPLY,
+                    "title": "Guess the Flag",
+                    "id": "flag",
+                }
+            ),
+            ContentList.QuickReplyAction(
+                {
+                    "type": ContentInstance.QuickReplyActionType.QUICK_REPLY,
+                    "title": "Guess the Capital",
+                    "id": "capital",
+                }
+            ),
+        ]
+        quick_reply = ContentList.TwilioQuickReply(
+            {"body": "Choose a game mode", "actions": actions}
         )
-        logger.debug("Sent menu message SID %s", getattr(message, "sid", "?"))
+        types = ContentList.Types({"twilio_quick_reply": quick_reply})
+        req = ContentList.ContentCreateRequest(
+            {
+                "friendly_name": "game_menu",
+                "language": "en",
+                "types": types,
+            }
+        )
+        try:
+            content = self.client.content.v1.contents.create(req)
+            self.client.messages.create(
+                from_=f"whatsapp:{self.whatsapp_number}",
+                to=to_number,
+                content_sid=content.sid,
+            )
+            logger.debug("Sent menu content SID %s", content.sid)
+        except Exception as exc:
+            logger.error("Failed to send quick reply: %s", exc)
 
     def handle(self, data: Dict[str, str]) -> str:
         incoming_msg = data.get("Body", "").strip()
