@@ -2,6 +2,12 @@
 
 This project implements a simple WhatsApp game using Twilio. The bot sends a flag emoji and waits for the user to guess the country. Answers are matched using fuzzy string matching. You can also ask for a short explanation of a flag using an LLM. A welcome message lets the user choose between guessing flags or capitals.
 
+The application uses a clean architecture with separation of concerns:
+
+- `twilio_api.py` handles all Twilio API interactions
+- `game.py` contains the core game logic
+- `app.py` provides the Flask web server and webhook endpoint
+
 ## Features
 
 - WhatsApp webhook using Twilio and Flask
@@ -18,7 +24,7 @@ This project implements a simple WhatsApp game using Twilio. The bot sends a fla
 pip install -r requirements.txt
 ```
 
-2. Configure environment variables (for Twilio and LLM provider):
+1. Configure environment variables (for Twilio and LLM provider):
 
 - `TWILIO_ACCOUNT_SID` – your Twilio account SID
 - `TWILIO_AUTH_TOKEN` – your Twilio auth token
@@ -31,7 +37,7 @@ to print detailed information about incoming requests and game logic.
 The code under the `src` directory is a Python package, so run modules using
 the `python -m` syntax.
 
-3. Point Twilio's inbound URL to your `/webhook` endpoint.
+1. Point Twilio's inbound URL to your `/webhook` endpoint.
    Expose your local server with [localtunnel](https://github.com/localtunnel/localtunnel):
 
    ```bash
@@ -43,7 +49,7 @@ the `python -m` syntax.
    field of the WhatsApp sandbox configuration page in the Twilio console.
    If you omit the `/webhook` path you'll get a 404 response.
 
-4. Run the server locally (it listens on port `5001` by default):
+1. Run the server locally (it listens on port `5001` by default):
 
 ```bash
 python -m src.app
@@ -51,7 +57,13 @@ python -m src.app
 
 Send `start` on WhatsApp to begin the game. You'll receive a menu to choose either "Guess the Flag" or "Guess the Capital". During the game you can reply with `explain` to get a short description of the current flag.
 
-The shared game logic lives in `src/game.py` and is used by both the Flask app and the Cloudflare Worker to avoid code duplication.
+The project uses a clean architecture with separation of concerns:
+
+- `src/game.py` contains the core game logic
+- `src/twilio_api.py` handles all Twilio API interactions
+- `src/app.py` provides the Flask web server and webhook endpoint
+
+This modular design makes the code more maintainable, testable, and easier to understand.
 
 ## Deploying to Cloudflare Workers
 
