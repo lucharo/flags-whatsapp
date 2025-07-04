@@ -84,9 +84,19 @@ class GameBot:
     def handle(self, data: Dict[str, str]) -> str:
         incoming_msg = data.get("Body", "").strip()
         from_number = data.get("From", "")
+        # Capture quick replies correctly - might be ListReplyId or ButtonPayload
         list_reply = data.get("ListReplyId", "").lower()
+        button_payload = data.get("ButtonPayload", "").lower()
 
+        # Log all relevant fields for debugging
         logger.info("Message from %s: %s", from_number, incoming_msg)
+        if list_reply:
+            logger.info("List reply ID: %s", list_reply)
+        if button_payload:
+            logger.info("Button payload: %s", button_payload)
+        
+        # Log all webhook data for complete debugging
+        logger.debug("Webhook data: %s", data)
 
         resp = MessagingResponse()
 
@@ -98,7 +108,9 @@ class GameBot:
 
         session = self.sessions.get(from_number)
 
-        chosen = list_reply or incoming_msg.lower()
+        # Check for game mode selection from any of the possible sources
+        chosen = button_payload or list_reply or incoming_msg.lower()
+        logger.debug("Chosen option: %s", chosen)
         if session and session["mode"] is None and chosen in {"flag", "capital"}:
             session["mode"] = chosen
             item = random.choice(FLAGS)
