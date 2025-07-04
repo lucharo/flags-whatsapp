@@ -2,7 +2,7 @@ import os
 from flask import Flask, request
 from twilio.rest import Client
 
-from game import GameBot
+from src.game import GameBot
 
 app = Flask(__name__)
 

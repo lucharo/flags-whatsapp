@@ -4,8 +4,8 @@ from rapidfuzz import fuzz
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
 
-from .flag_data import FLAGS
-from .llm_utils import explain_flag
+from src.flag_data import FLAGS
+from src.llm_utils import explain_flag
 
 
 class GameBot:
