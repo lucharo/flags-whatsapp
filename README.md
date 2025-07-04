@@ -23,7 +23,7 @@ pip install -r requirements.txt
 - `TWILIO_ACCOUNT_SID` – your Twilio account SID
 - `TWILIO_AUTH_TOKEN` – your Twilio auth token
 - `TWILIO_WHATSAPP_NUMBER` – the WhatsApp number provided by Twilio
-- `GOOGLE_API_KEY` – API key for Gemini (or other LLM provider)
+- `GOOGLE_API_KEY` – API key for Gemini (or other LLM provider) - get it from: https://aistudio.google.com/apikey
 
 You can place these in a `.env` file for development.
 
