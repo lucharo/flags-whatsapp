@@ -1,5 +1,0 @@
-Flask
-Twilio
-rapidfuzz
-mirascope
-python-dotenv
