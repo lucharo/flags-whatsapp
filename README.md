@@ -25,14 +25,15 @@ pip install -r requirements.txt
 - `TWILIO_WHATSAPP_NUMBER` – the WhatsApp number provided by Twilio
 - `GOOGLE_API_KEY` – API key for Gemini (or other LLM provider)
 
-You can place these in a `.env` file for development.
+You can place these in a `.env` file for development. The code under the `src`
+directory is a Python package, so run modules using the `python -m` syntax.
 
 3. Expose the `/webhook` endpoint to Twilio. In the Twilio console, set your WhatsApp webhook URL to `https://<your-server>/webhook`.
 
 4. Run the server locally:
 
 ```bash
-python src/app.py
+python -m src.app
 ```
 
 Send `start` on WhatsApp to begin the game. You'll receive a menu to choose either "Guess the Flag" or "Guess the Capital". During the game you can reply with `explain` to get a short description of the current flag.
