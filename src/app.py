@@ -2,6 +2,9 @@ import os
 import logging
 from flask import Flask, request
 from twilio.rest import Client
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from src.game import GameBot
 
