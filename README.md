@@ -23,14 +23,27 @@ pip install -r requirements.txt
 - `TWILIO_ACCOUNT_SID` – your Twilio account SID
 - `TWILIO_AUTH_TOKEN` – your Twilio auth token
 - `TWILIO_WHATSAPP_NUMBER` – the WhatsApp number provided by Twilio
-- `GOOGLE_API_KEY` – API key for Gemini (or other LLM provider) - get it from: https://aistudio.google.com/apikey
+- `GOOGLE_API_KEY` – API key for Gemini (or other LLM provider)
+- `LOG_LEVEL` – set to `DEBUG` for verbose logging
 
-You can place these in a `.env` file for development. The code under the `src`
-directory is a Python package, so run modules using the `python -m` syntax.
+You can place these in a `.env` file for development. Set `LOG_LEVEL=DEBUG`
+to print detailed information about incoming requests and game logic.
+The code under the `src` directory is a Python package, so run modules using
+the `python -m` syntax.
 
-3. Expose the `/webhook` endpoint to Twilio. In the Twilio console, set your WhatsApp webhook URL to `https://<your-server>/webhook`.
+3. Point Twilio's inbound URL to your `/webhook` endpoint.
+   Expose your local server with [localtunnel](https://github.com/localtunnel/localtunnel):
 
-4. Run the server locally:
+   ```bash
+   npx localtunnel --port 5001
+   ```
+
+   Copy the HTTPS URL that localtunnel prints (for example `https://abcd.loca.lt`).
+   Append `/webhook` and paste the result into the **When a message comes in**
+   field of the WhatsApp sandbox configuration page in the Twilio console.
+   If you omit the `/webhook` path you'll get a 404 response.
+
+4. Run the server locally (it listens on port `5001` by default):
 
 ```bash
 python -m src.app
