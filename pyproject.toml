@@ -1,0 +1,13 @@
+[project]
+name = "flags-whatsapp"
+version = "0.1.0"
+description = "Flags and Capitals game played via whatsapp with optional LLM explanations"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.1",
+    "mirascope>=1.25.2",
+    "python-dotenv>=1.1.1",
+    "rapidfuzz>=3.13.0",
+    "twilio>=9.6.4",
+]

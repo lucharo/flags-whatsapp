@@ -10,7 +10,6 @@ from src.llm_utils import explain_flag
 
 logger = logging.getLogger(__name__)
 
-
 class GameBot:
     """Shared game logic used by both Flask and Cloudflare Workers."""
 

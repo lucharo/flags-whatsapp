@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 # Configure basic logging so we can debug incoming requests easily.
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
-
 client = Client(os.environ.get('TWILIO_ACCOUNT_SID'), os.environ.get('TWILIO_AUTH_TOKEN'))
 TWILIO_WHATSAPP_NUMBER = os.environ.get('TWILIO_WHATSAPP_NUMBER', '')
 bot = GameBot(client, TWILIO_WHATSAPP_NUMBER)
