@@ -1,10 +1,11 @@
 import random
 import logging
+import requests
+import os
 from typing import Dict
 from rapidfuzz import fuzz
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
-from twilio.rest.content.v1.content import ContentList, ContentInstance
 
 from src.flag_data import FLAGS
 from src.llm_utils import explain_flag
@@ -30,41 +31,53 @@ class GameBot:
             return
         logger.info("Sending game mode menu to %s", to_number)
 
-        actions = [
-            ContentList.QuickReplyAction(
-                {
-                    "type": ContentInstance.QuickReplyActionType.QUICK_REPLY,
-                    "title": "Guess the Flag",
-                    "id": "flag",
-                }
-            ),
-            ContentList.QuickReplyAction(
-                {
-                    "type": ContentInstance.QuickReplyActionType.QUICK_REPLY,
-                    "title": "Guess the Capital",
-                    "id": "capital",
-                }
-            ),
-        ]
-        quick_reply = ContentList.TwilioQuickReply(
-            {"body": "Choose a game mode", "actions": actions}
-        )
-        types = ContentList.Types({"twilio_quick_reply": quick_reply})
-        req = ContentList.ContentCreateRequest(
-            {
+        try:
+            # Define the payload for Content API based on Twilio docs
+            payload = {
                 "friendly_name": "game_menu",
                 "language": "en",
-                "types": types,
+                "types": {
+                    "twilio/quick-reply": {  # Note: format changed from twilio_quick_reply to twilio/quick-reply
+                        "body": "Choose a game mode",
+                        "actions": [
+                            {
+                                "title": "Guess the Flag",
+                                "id": "flag",
+                                "type": "QUICK_REPLY"  # Add required type field
+                            },
+                            {
+                                "title": "Guess the Capital",
+                                "id": "capital",
+                                "type": "QUICK_REPLY"  # Add required type field
+                            }
+                        ]
+                    }
+                }
             }
-        )
-        try:
-            content = self.client.content.v1.contents.create(req)
+            
+            # Get credentials directly from environment (same as app.py does when creating the client)
+            account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+            auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+            
+            # Make authenticated request to Content API
+            response = requests.post(
+                "https://content.twilio.com/v1/Content",
+                json=payload,
+                auth=(account_sid, auth_token),
+                headers={'Content-Type': 'application/json'}
+            )
+            
+            # Check response
+            response.raise_for_status()
+            content_sid = response.json().get('sid')
+            
+            # Send message with content SID
             self.client.messages.create(
                 from_=f"whatsapp:{self.whatsapp_number}",
                 to=to_number,
-                content_sid=content.sid,
+                content_sid=content_sid,
             )
-            logger.debug("Sent menu content SID %s", content.sid)
+            logger.debug("Sent menu content SID %s", content_sid)
         except Exception as exc:
             logger.error("Failed to send quick reply: %s", exc)
 

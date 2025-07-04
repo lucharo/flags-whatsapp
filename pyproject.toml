@@ -11,3 +11,8 @@ dependencies = [
     "rapidfuzz>=3.13.0",
     "twilio>=9.6.4",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.2",
+]
