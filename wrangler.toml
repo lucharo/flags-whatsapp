@@ -1,0 +1,10 @@
+name = "flag-bot"
+type = "python"
+main = "cloudflare/worker.py"
+compatibility_date = "2024-11-01"
+
+[vars]
+TWILIO_ACCOUNT_SID = ""
+TWILIO_AUTH_TOKEN = ""
+TWILIO_WHATSAPP_NUMBER = ""
+GOOGLE_API_KEY = ""
