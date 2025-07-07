@@ -1,6 +1,5 @@
 import logging
 from mirascope import llm
-from mirascope.exceptions import MirascopeException
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +19,7 @@ def get_flag_explanation(country: str) -> str:
     """
     try:
         return explain_flag(country)
-    except MirascopeException as e:
-        error_msg = f"Failed to get flag explanation: {str(e)}"
-        logger.error(error_msg)
-        return "Sorry, I couldn't retrieve flag information right now."
     except Exception as e:
-        error_msg = f"Unexpected error in LLM call: {str(e)}"
+        error_msg = f"Failed to get flag explanation: {str(e)}"
         logger.error(error_msg)
         return "Sorry, I couldn't retrieve flag information right now."
