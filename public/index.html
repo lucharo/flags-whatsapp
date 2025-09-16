@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flag Dash</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <h1>Flag Dash</h1>
+        <p class="tagline">Sprint through world flags with a friend. No logins, no history, just pure trivia.</p>
+      </header>
+
+      <section id="lobby" class="panel">
+        <div class="panes">
+          <div class="pane">
+            <h2>Create a room</h2>
+            <form id="create-form" class="stack" autocomplete="off">
+              <label class="field">
+                <span>Your nickname</span>
+                <input id="create-nickname" name="nickname" maxlength="24" placeholder="Host" />
+              </label>
+              <label class="field">
+                <span>Rounds</span>
+                <input id="round-count" name="rounds" type="number" min="1" max="20" value="5" />
+              </label>
+              <label class="field">
+                <span>Seconds per flag</span>
+                <input id="round-duration" name="seconds" type="number" min="5" max="60" value="15" />
+              </label>
+              <button type="submit" class="primary">Create private room</button>
+            </form>
+          </div>
+          <div class="pane">
+            <h2>Join a friend</h2>
+            <form id="join-form" class="stack" autocomplete="off">
+              <label class="field">
+                <span>Your nickname</span>
+                <input id="join-nickname" name="nickname" maxlength="24" placeholder="Guest" />
+              </label>
+              <label class="field">
+                <span>Room code</span>
+                <input id="room-code" name="code" maxlength="6" required />
+              </label>
+              <button type="submit">Join room</button>
+            </form>
+            <p class="hint" id="invite-hint"></p>
+          </div>
+        </div>
+        <p class="error" id="lobby-error" role="alert"></p>
+      </section>
+
+      <section id="game" class="panel" hidden>
+        <div class="panel-header">
+          <div>
+            <h2 id="game-status">Waiting for players…</h2>
+            <p id="room-code-display"></p>
+          </div>
+          <div class="actions">
+            <button id="start-button" class="primary" hidden>Start match</button>
+            <button id="copy-link-button">Copy invite link</button>
+          </div>
+        </div>
+
+        <div class="scoreboard" id="scoreboard"></div>
+
+        <div class="flag-card" id="flag-card" hidden>
+          <div class="flag-emoji" id="flag-emoji">🏳️</div>
+          <div class="timer" id="round-timer">15.0s</div>
+          <form id="guess-form" autocomplete="off">
+            <input id="guess-input" name="guess" placeholder="Type the country name" maxlength="64" />
+            <button type="submit">Lock it in</button>
+          </form>
+          <p class="error" id="guess-error" role="alert"></p>
+        </div>
+
+        <div class="results" id="round-results" hidden></div>
+        <p class="error" id="game-error" role="alert"></p>
+      </section>
+    </main>
+
+    <script type="module" src="/assets/client/main.js"></script>
+  </body>
+</html>
