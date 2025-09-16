@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": "src",
+    "lib": ["ES2021"],
+    "types": ["node"]
+  },
+  "include": ["src/server/**/*", "src/game/**/*", "src/shared/**/*"],
+  "exclude": ["node_modules", "public", "dist", "tests", "scripts"]
+}
