@@ -1,0 +1,244 @@
+:root {
+  color-scheme: light dark;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #202943, #0d1117 60%);
+  color: #f5f7ff;
+  min-height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.app {
+  width: min(960px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 3.4rem);
+  letter-spacing: 0.08em;
+}
+
+.hero .tagline {
+  margin: 8px 0 0;
+  color: #c5ccff;
+  font-size: 1.05rem;
+}
+
+.panel {
+  background: rgba(19, 25, 38, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(3, 12, 32, 0.45);
+}
+
+.panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.panes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.pane h2 {
+  margin-top: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field span {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9ba8ff;
+}
+
+input,
+button {
+  font: inherit;
+  border-radius: 10px;
+  border: none;
+  padding: 12px 14px;
+}
+
+input {
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  border: 1px solid transparent;
+}
+
+input:focus {
+  outline: none;
+  border-color: rgba(118, 140, 255, 0.8);
+  box-shadow: 0 0 0 2px rgba(118, 140, 255, 0.25);
+}
+
+button {
+  background: rgba(118, 140, 255, 0.22);
+  color: #f5f7ff;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #8f9dff, #5c6cff);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: rgba(118, 140, 255, 0.35);
+}
+
+button.primary:hover {
+  background: linear-gradient(135deg, #9aa7ff, #6a79ff);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.score-card {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(118, 140, 255, 0.1);
+  border: 1px solid rgba(118, 140, 255, 0.2);
+  display: grid;
+  gap: 6px;
+}
+
+.score-card .name {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.score-card .score {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.flag-card {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(7, 16, 32, 0.75);
+  border: 1px solid rgba(118, 140, 255, 0.18);
+}
+
+.flag-emoji {
+  font-size: clamp(4rem, 15vw, 6rem);
+}
+
+.timer {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+#guess-form {
+  display: flex;
+  gap: 12px;
+}
+
+#guess-form input {
+  flex: 1;
+}
+
+.results {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.result-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.result-row.success {
+  border: 1px solid rgba(109, 255, 188, 0.45);
+}
+
+.result-row.fail {
+  border: 1px solid rgba(255, 140, 140, 0.35);
+}
+
+.hint {
+  color: #9ba8ff;
+  font-size: 0.85rem;
+}
+
+.error {
+  color: #ff9ca3;
+  min-height: 1.2em;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 16px;
+  }
+
+  #guess-form {
+    flex-direction: column;
+  }
+
+  .result-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
